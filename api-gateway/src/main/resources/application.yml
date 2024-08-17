@@ -1,0 +1,68 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+      routes:
+        - id: userservice_route
+          uri: ${registration.services.userservice.host}
+          predicates:
+            - Path= ${registration.services.userservice.path}
+          filters:
+            - RewritePath=/user-service(?<segment>/?.*), $\{segment}
+        - id: propertyservice_route
+          uri: ${registration.services.propertyservice.host}
+          predicates:
+            - Path= ${registration.services.propertyservice.path}
+          filters:
+            - RewritePath=/property-service(?<segment>/?.*), $\{segment}
+        - id: discoveryserver_route
+          uri: ${registration.services.discoveryserver.host}
+          predicates:
+            - Path= ${registration.services.discoveryserver.path}
+          filters:
+            - SetPath=/
+        - id: discoveryserverstaticresource_route
+          uri: ${registration.services.discoveryserver.host}
+          predicates:
+            - Path= ${registration.services.discoveryserver.pathStatic}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        cloud:
+          gateway: trace
+
+
+registration:
+  services:
+    userservice:
+      host: http://localhost:8081/
+      path: /user-service/**, /v3/api-docs, /swagger-ui.html, /v3/api-docs/swagger-config
+    propertyservice:
+      host: http://localhost:8082/
+      path: /property-service/**, /v3/api-docs, /swagger-ui.html, /v3/api-docs/swagger-config
+    discoveryserver:
+      host: http://localhost:8761
+      path: /eureka/web
+      pathStatic: /eureka/**

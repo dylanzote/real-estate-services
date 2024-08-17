@@ -1,20 +1,21 @@
 package com.zote.agent.service.domain.ports.outbound;
 
 import com.zote.agent.service.domain.models.Agent;
+import com.zote.agent.service.domain.models.AgentDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface AgentRepositoryPort {
 
-    Agent createAgent(Agent agent);
+    AgentDto createAgent(Agent agent);
 
-    Page<Agent> findAgentByPage(Pageable pageable);
+    Page<AgentDto> findAgentByPage(Pageable pageable);
 
-    Agent findAgentById(String agentId);
+    AgentDto findAgentById(String agentId);
 
-    Agent findAgentByPhoneNumber(String phoneNumber);
+    AgentDto findAgentByPhoneNumber(String phoneNumber);
 
-    Agent updateAgent(Agent agent);
+    AgentDto updateAgent(Agent agent);
 
     Boolean existsById(String agentId);
 

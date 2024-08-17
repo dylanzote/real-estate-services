@@ -4,12 +4,14 @@ import com.zote.property.service.api.enums.SortField;
 import com.zote.property.service.api.request.CreatePropertyRequest;
 import com.zote.property.service.api.request.UpdatePropertyRequest;
 import com.zote.property.service.api.response.PropertyPageResponse;
-import com.zote.common.utls.models.ResponseData;
+import com.zote.common.utils.models.ResponseData;
+import com.zote.property.service.api.usecases.CreatePropertyUseCase;
 import com.zote.property.service.domain.models.Property;
 import com.zote.property.service.domain.ports.inbound.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,10 +28,13 @@ public class PropertyApi {
     private final UpdateProperty updateProperty;
     private final DeleteProperty deleteProperty;
 
-    @PostMapping("/create")
-    public Property createProperty(@RequestBody CreatePropertyRequest createPropertyRequest) {
+    private final CreatePropertyUseCase createPropertyUseCase;
+
+    @PostMapping(value ="/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Property createProperty(@RequestBody @ModelAttribute CreatePropertyRequest createPropertyRequest) {
         log.info("incoming creat property request with data {}", createPropertyRequest);
-        return createProperty.createProperty(createPropertyRequest.toProperty());
+        // TODO: 3/3/2024 remove this fat controller anti pattern to respect hexaconal architecture due to the fact that orchestration logic and domain model translation should not be the responsibility of the controller.
+        return createProperty.createProperty(createPropertyUseCase.createProperty(createPropertyRequest));
     }
 
     @GetMapping("/getAllByPage")

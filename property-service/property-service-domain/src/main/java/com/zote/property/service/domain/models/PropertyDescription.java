@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class PropertyDescription {
     private int numberOfGarages;
     private int floorNumber;
     private int sizeOfRoom;
-    private String thumbnailImage;
-    private List<String> images;
+    private MultipartFile thumbnailImage;
+    private List<MultipartFile> images;
     private List<String> facilities;
 }

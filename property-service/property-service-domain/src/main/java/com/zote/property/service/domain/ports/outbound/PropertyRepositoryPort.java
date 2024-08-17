@@ -1,6 +1,7 @@
 package com.zote.property.service.domain.ports.outbound;
 
 
+import com.zote.property.service.domain.models.Agent;
 import com.zote.property.service.domain.models.Property;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface PropertyRepositoryPort {
 
-    Property saveProperty(Property property);
+    Property saveProperty(Property property, Agent agent);
 
     Page<Property> findPropertyByPage(Pageable pageable);
 

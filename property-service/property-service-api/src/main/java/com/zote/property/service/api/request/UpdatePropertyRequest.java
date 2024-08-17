@@ -1,6 +1,6 @@
 package com.zote.property.service.api.request;
 
-import com.zote.common.utls.exceptions.FunctionalError;
+import com.zote.common.utils.exceptions.FunctionalError;
 import com.zote.property.service.domain.models.Property;
 import com.zote.property.service.domain.models.PropertyDescription;
 
@@ -31,8 +31,6 @@ public record UpdatePropertyRequest(String propertyId,
                                     int numberOfGarages,
                                     int floorNumber,
                                     int sizeOfRoom,
-                                    String thumbnailImage,
-                                    List<String> images,
                                     List<String> facilities,
                                     String agentId,
                                     String agentName) {
@@ -57,12 +55,10 @@ public record UpdatePropertyRequest(String propertyId,
         var propertyDescription = PropertyDescription.builder()
                 .facilities(this.facilities())
                 .floorNumber(this.floorNumber())
-                .images(this.images())
                 .numberOfBaths(this.numberOfBaths())
                 .numberOfBedRooms(this.numberOfBedRooms())
                 .numberOfGarages(this.numberOfGarages())
                 .sizeOfRoom(this.sizeOfRoom())
-                .thumbnailImage(this.thumbnailImage())
                 .build();
 
         return new Property(this.propertyId(), this.title(), this.country(), this.town(),
