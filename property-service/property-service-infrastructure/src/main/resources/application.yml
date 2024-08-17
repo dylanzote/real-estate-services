@@ -3,5 +3,23 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/propertyDB
       auto-index-creation: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2000000000000
+      max-request-size: 215000000000
+      file-size-threshold: 10
+  application:
+    name: property-service
 server:
-  port: 8082
+  port: 0
+
+agent-service:
+  get-by-id-url: http://localhost:8081/agent/getById/
+
+minio:
+  object:
+    bucket-name: default
+    url: http://localhost:9000
+    access-key: XfNtLMzPsBmII8tmjJBx
+    secret-key: 9zAw2ubkNMsh5DrgXGl4lPj0T3rrCmJ7pRarl2Z1

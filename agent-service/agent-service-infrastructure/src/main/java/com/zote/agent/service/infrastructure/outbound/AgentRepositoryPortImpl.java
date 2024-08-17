@@ -1,7 +1,7 @@
 package com.zote.agent.service.infrastructure.outbound;
 
-import com.zote.agent.service.domain.enums.Status;
 import com.zote.agent.service.domain.models.Agent;
+import com.zote.agent.service.domain.models.AgentDto;
 import com.zote.agent.service.domain.ports.outbound.AgentRepositoryPort;
 import com.zote.agent.service.infrastructure.outbound.models.AgentEntity;
 import lombok.RequiredArgsConstructor;
@@ -22,32 +22,33 @@ import static com.zote.agent.service.domain.enums.Status.INACTIVE;
 public class AgentRepositoryPortImpl implements AgentRepositoryPort {
 
     private final AgentRepository agentRepository;
+
     @Override
-    public Agent createAgent(Agent agent) {
+    public AgentDto createAgent(Agent agent) {
         log.info("creating agent with data {}", agent);
         return agentRepository.save(AgentEntity.create(agent)).toDomain();
     }
 
     @Override
-    public Page<Agent> findAgentByPage(Pageable pageable) {
+    public Page<AgentDto> findAgentByPage(Pageable pageable) {
         log.info("getting all agents with data {}", pageable);
         return agentRepository.findAll(pageable).map(AgentEntity::toDomain);
     }
 
     @Override
-    public Agent findAgentById(String agentId) {
+    public AgentDto findAgentById(String agentId) {
         log.info("getting agent with agentId {}", agentId);
         return agentRepository.findById(agentId).map(AgentEntity::toDomain).orElse(null);
     }
 
     @Override
-    public Agent findAgentByPhoneNumber(String phoneNumber) {
+    public AgentDto findAgentByPhoneNumber(String phoneNumber) {
         log.info("getting agent with phoneNumber {}", phoneNumber);
         return agentRepository.findAgentEntityByPhoneNumber(phoneNumber).toDomain();
     }
 
     @Override
-    public Agent updateAgent(Agent agent) {
+    public AgentDto updateAgent(Agent agent) {
         log.info("update agent with data {}", agent);
         // TODO: 2/11/2024 add use case to change phone number for two factor authentication
         var agentEntity = agentRepository.findById(agent.getAgentId()).get();
@@ -68,7 +69,7 @@ public class AgentRepositoryPortImpl implements AgentRepositoryPort {
 
     @Override
     public Boolean existsByEmail(String email) {
-        log.info("verifies if agent exists by phoneNumber {}", email);
+        log.info("verifies if agent exists by email {}", email);
         return agentRepository.existsAgentEntityByEmail(email);
     }
 
@@ -97,10 +98,9 @@ public class AgentRepositoryPortImpl implements AgentRepositoryPort {
     private AgentEntity updateAgent(AgentEntity agentEntity, Agent agent) {
         agentEntity.setAddress(agent.getAddress());
         agentEntity.setTown(agent.getTown());
-        agentEntity.setCountry(agent.getCountry());
+        agentEntity.setGender(agent.getGender());
         agentEntity.setEmail(agent.getEmail());
         agentEntity.setFirstName(agent.getFirstName());
-        agentEntity.setImage(agent.getImage());
         agentEntity.setUpdatedOn(LocalDate.now());
         agentEntity.setLastName(agent.getLastName());
         agentEntity.setUpdatedTime(LocalTime.now());

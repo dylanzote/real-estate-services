@@ -2,7 +2,7 @@ package com.zote.agent.service.domain.usecases;
 
 import com.zote.agent.service.domain.ports.inbound.DeleteAgent;
 import com.zote.agent.service.domain.ports.outbound.AgentRepositoryPort;
-import com.zote.common.utls.exceptions.AgentNotFoundException;
+import com.zote.common.utils.exceptions.AgentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

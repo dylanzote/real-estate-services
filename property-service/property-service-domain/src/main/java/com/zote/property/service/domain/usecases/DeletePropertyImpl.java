@@ -1,6 +1,6 @@
 package com.zote.property.service.domain.usecases;
 
-import com.zote.common.utls.exceptions.FunctionalError;
+import com.zote.common.utils.exceptions.FunctionalError;
 import com.zote.property.service.domain.ports.inbound.DeleteProperty;
 import com.zote.property.service.domain.ports.outbound.PropertyRepositoryPort;
 import lombok.RequiredArgsConstructor;

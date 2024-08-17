@@ -1,13 +1,15 @@
 package com.zote.agent.service.domain.models;
 
 import com.zote.agent.service.domain.enums.Status;
+import com.zote.common.utils.models.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,34 +21,15 @@ public class Agent {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String country;
+    private Gender gender;
     private String town;
+    private String password;
     private String address;
     private Status agentStatus;
-    private String image;
+    private MultipartFile image;
     private LocalDate createdOn;
     private LocalDate updatedOn;
     private LocalTime createdTime;
     private LocalTime updatedTime;
 
-//    public Agent create(CreateAgentRequest request) {
-//        return Agent.builder()
-//                .agentId(String.valueOf(UUID.randomUUID()))
-//                .agentStatus(Status.PENDING)
-//                .address(request.address())
-//                .city(request.city())
-//                .country(request.country())
-//                .createdOn(LocalDate.now())
-//                .createdTime(LocalTime.now())
-//                .email(request.email())
-//                .image(request.image())
-//                .firstName(request.firstName())
-//                .phoneNumber(request.phoneNumber())
-//                .lastName(request.lastName())
-//                .build();
-//    }
-//
-//    public Agent toDto() {
-//        return new com.zote.agentservice.dtos.Agent(this.agentId, this.firstName, this.lastName, this.email, this.phoneNumber, this.country, this.city, this.address, this.image, this.agentStatus.name());
-//    }
 }

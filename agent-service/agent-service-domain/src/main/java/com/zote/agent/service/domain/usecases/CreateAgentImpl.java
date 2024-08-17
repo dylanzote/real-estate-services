@@ -1,11 +1,16 @@
 package com.zote.agent.service.domain.usecases;
 
 import com.zote.agent.service.domain.models.Agent;
+import com.zote.agent.service.domain.models.AgentDto;
 import com.zote.agent.service.domain.ports.inbound.CreateAgent;
 import com.zote.agent.service.domain.ports.outbound.AgentRepositoryPort;
-import com.zote.common.utls.exceptions.FunctionalError;
+import com.zote.agent.service.domain.support.AgentSupport;
+import com.zote.common.utils.exceptions.FunctionalError;
+import com.zote.common.utils.files.MinioObjectStorage;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,12 +19,22 @@ import org.springframework.stereotype.Service;
 public class CreateAgentImpl implements CreateAgent {
 
     private final AgentRepositoryPort agentRepository;
+
+    private final AgentSupport agentSupport;
+
+    private final MinioObjectStorage minioObjectStorage;
+
     @Override
-    public Agent createAgent(Agent agent) {
+    @SneakyThrows
+    public AgentDto createAgent(Agent agent) {
         log.info("creating agent with data {}", agent);
-        // TODO: 2/16/2024 add agent password 
+        agentSupport.validateData(agent);
         verifyIfAgentExist(agent);
-        return agentRepository.createAgent(agent);
+        agent.setPassword(new BCryptPasswordEncoder().encode(agent.getPassword()));
+        minioObjectStorage.uploadImage(agent.getImage(), minioObjectStorage.getAgentImageName(agent.getAgentId(), agent.getFirstName()));
+        var agentDto = agentRepository.createAgent(agent);
+        agentDto.setImage(MinioObjectStorage.convertToBase64(minioObjectStorage.getObject(minioObjectStorage.getAgentImageName(agentDto.getAgentId(), agentDto.getFirstName()))));
+        return agentDto;
     }
 
     private void  verifyIfAgentExist(Agent agent) {

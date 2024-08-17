@@ -1,7 +1,11 @@
 package com.zote.property.service.infrastructure.outbound.persistence;
 
+import com.zote.common.utils.exceptions.FunctionalError;
+import com.zote.property.service.domain.models.Agent;
 import com.zote.property.service.domain.models.Property;
+import com.zote.property.service.domain.models.PropertyDescription;
 import com.zote.property.service.domain.ports.outbound.PropertyRepositoryPort;
+import com.zote.property.service.infrastructure.outbound.entities.PropertyEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
@@ -16,8 +20,8 @@ public class PropertyRepositoryPortImp implements PropertyRepositoryPort {
     private final PropertyRepository propertyRepository;
 
     @Override
-    public Property saveProperty(Property property) {
-        return propertyRepository.save(PropertyEntity.create(property)).toDomain();
+    public Property saveProperty(Property property, Agent agent) {
+        return propertyRepository.save(PropertyEntity.create(property, agent)).toDomain();
     }
 
     @Override
@@ -32,9 +36,13 @@ public class PropertyRepositoryPortImp implements PropertyRepositoryPort {
 
     @Override
     public Property updateProperty(Property property) {
-        var propertyEntity  = propertyRepository.findById(property.propertyId()).get();
-
-        return propertyRepository.save(updateProperty(propertyEntity, property)).toDomain();
+        var optionalPropertyEntity  = propertyRepository.findById(property.propertyId());
+        if (optionalPropertyEntity.isPresent()) {
+            var propertyEntity = optionalPropertyEntity.get();
+            return propertyRepository.save(updateProperty(propertyEntity, property)).toDomain();
+        } else {
+            throw new FunctionalError("Property not found");
+        }
     }
 
     @Override
@@ -50,7 +58,7 @@ public class PropertyRepositoryPortImp implements PropertyRepositoryPort {
     private PropertyEntity updateProperty(PropertyEntity propertyEntity, Property property){
         propertyEntity.setAddress(property.address());
         propertyEntity.setContent(property.content());
-        propertyEntity.setPropertyDescription(property.propertyDescription());
+        propertyEntity.setPropertyDescription(updatePropertyDescription(propertyEntity.getPropertyDescription(), property.propertyDescription()));
         propertyEntity.setUpdatedOn(LocalDate.now());
         propertyEntity.setLatitude(property.latitude());
         propertyEntity.setLongitude(property.longitude());
@@ -59,5 +67,15 @@ public class PropertyRepositoryPortImp implements PropertyRepositoryPort {
         propertyEntity.setStatus(property.status());
         propertyEntity.setTitle(property.title());
         return propertyEntity;
+    }
+
+    private PropertyDescription updatePropertyDescription(PropertyDescription propertyDescription, PropertyDescription property) {
+        propertyDescription.setFacilities(property.getFacilities());
+        propertyDescription.setFloorNumber(property.getFloorNumber());
+        propertyDescription.setNumberOfBaths(property.getNumberOfBaths());
+        propertyDescription.setNumberOfGarages(property.getNumberOfGarages());
+        propertyDescription.setNumberOfBedRooms(property.getNumberOfBedRooms());
+        propertyDescription.setSizeOfRoom(property.getSizeOfRoom());
+        return propertyDescription;
     }
 }
