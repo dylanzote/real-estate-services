@@ -3,8 +3,10 @@ package com.zote.user.service.infrastructure.outbound.entities;
 import com.zote.common.utils.audit.Auditable;
 import com.zote.common.utils.models.Gender;
 import com.zote.common.utils.models.Status;
+import com.zote.user.service.domain.model.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.BeanUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +22,10 @@ import java.util.stream.Collectors;
 public class UserEntity extends Auditable {
     @Id
     private String id;
+    private String keycloakUserId;
     private String firstName;
     private String lastName;
+    private String userName;
     private String email;
     private String phoneNumber;
     private String dateOfBirth;
@@ -41,6 +45,26 @@ public class UserEntity extends Auditable {
     private String town;
     private String address;
     private String imageUrl;
+
+    public static UserEntity toEntity(User user) {
+        UserEntity entity = new UserEntity();
+        BeanUtils.copyProperties(user, entity);
+        Set<RoleEntity> roleEntities = user.getRoles()
+                .stream()
+                .map(RoleEntity::toEntity)
+                .collect(Collectors.toSet());
+        entity.setRoles(roleEntities);
+        return entity;
+    }
+
+    public User toDto() {
+        User user = new User();
+        BeanUtils.copyProperties(this, user);
+        user.setRoles(this.getRoles().stream()
+                .map(RoleEntity::toDto)
+                .collect(Collectors.toSet()));
+        return user;
+    }
 
     // Method to get all permissions for the user
     public Set<PermissionEntity> getPermissions() {

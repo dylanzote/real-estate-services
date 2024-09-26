@@ -1,12 +1,16 @@
 package com.zote.user.service.domain.model;
 
 import com.zote.common.utils.models.Gender;
+import com.zote.common.utils.models.KeyCloakUser;
 import com.zote.common.utils.models.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -15,7 +19,9 @@ import java.util.Set;
 @Builder
 public class User {
     private String id;
+    private String keycloakUserId;
     private String firstName;
+    private String userName;
     private String lastName;
     private String email;
     private String phoneNumber;
@@ -29,4 +35,21 @@ public class User {
     private String town;
     private String address;
     private String imageUrl;
+    private String createdBy;
+    private LocalDateTime createdDate;
+    private String lastModifiedBy;
+    private LocalDateTime lastModifiedDate;
+
+    public  KeyCloakUser toKeyCloakUser() {
+        KeyCloakUser keyCloakUser = new KeyCloakUser();
+        BeanUtils.copyProperties(this, keyCloakUser);
+        return keyCloakUser;
+    }
+
+    public  KeyCloakUser toKeyCloakUpdateUser() {
+        KeyCloakUser keyCloakUser = new KeyCloakUser();
+        BeanUtils.copyProperties(this, keyCloakUser);
+        keyCloakUser.setId(keycloakUserId);
+        return keyCloakUser;
+    }
 }

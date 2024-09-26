@@ -11,5 +11,4 @@ public class DataFileProperties {
     private long maxFileSize;
     private long maxRequestSize;
     private long fileSizeThreshold;
-
 }

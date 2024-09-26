@@ -6,6 +6,7 @@ import io.minio.errors.*;
 import io.minio.messages.Item;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -62,10 +64,13 @@ public class MinioObjectStorage {
         GetObjectResponse stream = null;
         try {
             stream = minioClient.getObject(GetObjectArgs.builder().object(objectName).bucket(bucketName).build());
-        } catch (ErrorResponseException | InsufficientDataException | InvalidKeyException | IOException |
+        } catch (InsufficientDataException | InvalidKeyException | IOException |
                  NoSuchAlgorithmException | ServerException | XmlParserException | InvalidResponseException |
                  InternalException e) {
             throw new FunctionalError(e.toString());
+        } catch (ErrorResponseException exception) {
+            log.error("Invalid key: {}", exception.getMessage());
+            throw new FunctionalError("no image for user");
         }
         log.info("stream: {} is successfully downloaded from bucket: {}", stream, bucketName);
         return stream;
@@ -90,6 +95,10 @@ public class MinioObjectStorage {
 
     public String getAgentImageName(String agentId, String agentName) {
         return "agents".concat("/").concat(agentId).concat("_").concat(agentName).concat(".jpg");
+    }
+
+    public String getUserImageName(String userId) {
+        return "users".concat("/").concat(userId).concat(".jpg");
     }
 
     @SneakyThrows

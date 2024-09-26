@@ -2,12 +2,9 @@ package com.zote.user.service.infrastructure.outbound.persistence.port;
 
 import com.zote.common.utils.exceptions.FunctionalError;
 import com.zote.user.service.domain.model.Role;
-import com.zote.user.service.domain.model.RoleDto;
 import com.zote.user.service.domain.ports.outbound.RoleRepositoryPort;
 import com.zote.user.service.infrastructure.outbound.entities.RoleEntity;
-import com.zote.user.service.infrastructure.outbound.mapper.RoleMapper;
 import com.zote.user.service.infrastructure.outbound.persistence.repository.RoleRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,14 +33,14 @@ public class RoleRepositoryPortImpl implements RoleRepositoryPort {
     public Role findRoleById(String roleId) {
         log.info("Getting role with roleId {}", roleId);
         return roleRepository.findById(roleId).map(RoleEntity::toDto)
-                .orElseThrow(() -> new FunctionalError("could not found role with roleId " + roleId));
+                .orElseThrow(() -> new FunctionalError("could not find role with roleId " + roleId));
     }
 
     @Override
     public Role findRoleByName(String roleName) {
         log.info("Getting role with roleName {}", roleName);
         return roleRepository.findByName(roleName).map(RoleEntity::toDto)
-                .orElseThrow(() -> new FunctionalError("could not found role with roleName " + roleName));
+                .orElseThrow(() -> new FunctionalError("could not find role with roleName " + roleName));
     }
 
     @Override

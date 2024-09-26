@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: common-service
+
+keycloak:
+  server-url: http://localhost:8080/
+  realm: real-estate
+  client-id: real-estate-credential-id
+  grant-type: password
+  username: zote
+  password: zote
+  client-secret: mAONFHck6LiZewGnPR6ixTqZKBVEJjw2
+
+
+logging:
+  level:
+    org.springdoc: DEBUG
