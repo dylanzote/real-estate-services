@@ -11,26 +11,26 @@ import java.util.List;
 
 @Tag(name = "Role API")
 @RestController
-@RequestMapping("/")
+@RequestMapping("/role/")
 public interface RoleApi {
 
     @Operation(summary = "create a new Role")
-    @PostMapping("create-role")
+    @PostMapping("create")
     RoleResponse createRole(@RequestBody CreateRoleRequest request);
 
     @Operation(summary = "get all Roles")
-    @GetMapping("get-roles")
+    @GetMapping("get-all")
     List<RoleResponse> getAllRoles();
 
     @Operation(summary = "get a Role by id")
-    @GetMapping("get-role/{id}")
+    @GetMapping("get/{id}")
     RoleResponse getRole(@PathVariable("id") String id);
 
     @Operation(summary = "update a Role")
-    @PutMapping("update-role")
+    @PutMapping("update")
     RoleResponse updateRole(@RequestBody UpdateRoleRequest request);
 
     @Operation(summary = "delete a Role by id")
-    @DeleteMapping("delete-role/{id}")
+    @DeleteMapping("delete/{id}")
     void deleteRole(@PathVariable("id") String id);
 }

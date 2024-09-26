@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum SortField {
 
-    STATUS("status"),
     CREATED_ON("createdDate");
 
     private final String fieldName;

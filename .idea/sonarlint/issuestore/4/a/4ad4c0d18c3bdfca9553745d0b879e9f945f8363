@@ -1,0 +1,11 @@
+
+b
+java:S1192"LDefine a constant instead of duplicating this literal "real-estate" 6 times.(ÕÀôğ
+m	java:S117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰éê†8ú§¦¯˜2
+X	java:S125"<This block of commented-out lines of code should be removed.(„±¨™8‹ñ¯˜2
+h
+java:S6204#"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹
+]	java:S125'"<This block of commented-out lines of code should be removed.(·¥©Šÿÿÿÿÿ8¶¦¯˜2
+X	java:S1251"<This block of commented-out lines of code should be removed.(„±¨™8¨¦¯˜2
+o
+java:S1128"RRemove this unused import 'org.keycloak.representations.idm.ClientRepresentation'.(Óœî8´›£¯˜2

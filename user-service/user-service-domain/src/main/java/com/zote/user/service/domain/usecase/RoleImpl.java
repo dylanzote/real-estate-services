@@ -1,5 +1,6 @@
 package com.zote.user.service.domain.usecase;
 
+import com.zote.common.utils.config.KeyCloakService;
 import com.zote.common.utils.exceptions.FunctionalError;
 import com.zote.user.service.domain.model.*;
 import com.zote.user.service.domain.ports.inbound.RolePort;
@@ -22,6 +23,8 @@ public class RoleImpl implements RolePort {
     private final RoleRepositoryPort roleRepositoryPort;
 
     private final PermissionRepositoryPort permissionRepositoryPort;
+
+    private final KeyCloakService keyCloakService;
     @Override
     public Role createRole(RoleRequest roleRequest) {
         if (!roleRepositoryPort.existsByName(roleRequest.getName())) {
@@ -31,6 +34,7 @@ public class RoleImpl implements RolePort {
                     .name(roleRequest.getName())
                     .description(roleRequest.getDescription())
                     .permissions(permissions).build();
+            keyCloakService.addRealmRole(role.getName(), role.getDescription());
             return roleRepositoryPort.saveRole(role);
         }
         throw new FunctionalError("role already exists with name " + roleRequest.getName());
@@ -43,11 +47,14 @@ public class RoleImpl implements RolePort {
         role.setName(roleRequest.getName());
         role.setDescription(roleRequest.getDescription());
         role.setPermissions(permissions);
+//        keyCloakService.addRealmRole(role.getName(), role.getDescription());
         return roleRepositoryPort.saveRole(role);
     }
 
     @Override
     public void deleteRole(String roleId) {
+        var role = roleRepositoryPort.findRoleById(roleId);
+        keyCloakService.deleteRealmRole(role.getName());
         roleRepositoryPort.deleteRoleById(roleId);
     }
 

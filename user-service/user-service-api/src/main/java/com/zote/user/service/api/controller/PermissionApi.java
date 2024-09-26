@@ -12,26 +12,26 @@ import java.util.List;
 
 @Tag(name = "Permission API")
 @RestController
-@RequestMapping("/")
+@RequestMapping("/permission/")
 public interface PermissionApi {
 
     @Operation(summary = "create a new Permission")
-    @PostMapping("create-permissions")
+    @PostMapping("create")
     PermissionResponse createPermission(@RequestBody CreatePermissionRequest request);
 
     @Operation(summary = "get all permissions")
-    @GetMapping("get-permissions")
+    @GetMapping("get-all")
     List<PermissionResponse> getAllPermissions();
 
     @Operation(summary = "get permission by id")
-    @GetMapping("get-permission/{id}")
+    @GetMapping("get/{id}")
     PermissionResponse getPermission(@PathVariable("id") String id);
 
     @Operation(summary = "update permission")
-    @PutMapping("update-permissions")
+    @PutMapping("update")
     PermissionResponse updatePermission(@RequestBody UpdatePermissionRequest request);
 
     @Operation(summary = "delete permission by id")
-    @DeleteMapping("delete-permission/{id}")
+    @DeleteMapping("delete/{id}")
     void deletePermission(@PathVariable("id") String id);
 }
