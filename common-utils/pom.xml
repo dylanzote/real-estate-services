@@ -101,6 +101,10 @@
             <artifactId>keycloak-admin-client</artifactId>
             <version>25.0.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
 
     </dependencies>
 

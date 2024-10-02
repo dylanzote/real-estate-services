@@ -6,6 +6,7 @@ import com.zote.user.service.api.request.UpdatePermissionRequest;
 import com.zote.user.service.api.response.PermissionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface PermissionApi {
 
     @Operation(summary = "create a new Permission")
     @PostMapping("create")
+    @RolesAllowed({"AdMIN"})
     PermissionResponse createPermission(@RequestBody CreatePermissionRequest request);
 
     @Operation(summary = "get all permissions")

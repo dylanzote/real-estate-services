@@ -10,7 +10,21 @@ keycloak:
   username: zote
   password: zote
   client-secret: mAONFHck6LiZewGnPR6ixTqZKBVEJjw2
+  auth-server-url: ${keycloak.server-url}/realms/real-estate/protocol/openid-connect/token
 
+minio:
+  object:
+    bucket-name: default
+    url: http://localhost:9000
+    access-key: XfNtLMzPsBmII8tmjJBx
+    secret-key: 9zAw2ubkNMsh5DrgXGl4lPj0T3rrCmJ7pRarl2Z1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
 
 logging:
   level:

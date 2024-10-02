@@ -35,6 +35,7 @@ public class User {
     private String town;
     private String address;
     private String imageUrl;
+    private AuthData authResponse;
     private String createdBy;
     private LocalDateTime createdDate;
     private String lastModifiedBy;

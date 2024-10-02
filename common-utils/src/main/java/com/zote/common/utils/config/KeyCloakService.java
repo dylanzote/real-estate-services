@@ -96,6 +96,20 @@ public class KeyCloakService {
         userResource.roles().realmLevel().add(Collections.singletonList(roleRepresentation));
     }
 
+    public void removeRoleToUser(String userId, String roleName) {
+        log.info("Assigning role {} to user with id {}", roleName, userId);
+        var userResource = getUserResource(userId);
+        var oldRoleRepresentation = getRolesResource()
+                .get(roleName)
+                .toRepresentation();
+        if (oldRoleRepresentation != null) {
+            log.info("Removing old role '{}'", roleName);
+            userResource.roles().realmLevel().remove(Collections.singletonList(oldRoleRepresentation));
+        } else {
+            log.warn("Old role '{}' not found for user '{}'", roleName, userId);
+        }
+    }
+
     public void resetPassword(String userId, String password) {
         log.info("Resetting password for user with id {}", userId);
         CredentialRepresentation credentialRepresentation = new CredentialRepresentation();

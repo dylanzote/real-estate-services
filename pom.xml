@@ -27,7 +27,6 @@
     </dependencies>
     <modules>
         <module>property-service</module>
-        <module>agent-service</module>
         <module>common-utils</module>
         <module>user-service</module>
         <module>api-gateway</module>

@@ -47,7 +47,10 @@ public class UserImpl implements UserPort {
         var keycloakUserId = keyCloakService.createUser(user.toKeyCloakUser(), createUserData.getPassword());
         user.setKeycloakUserId(keycloakUserId);
         roles.forEach(role -> keyCloakService.assignRoleToUser(keycloakUserId, role.getName()));
-        return userRepository.saveUser(user);
+        user = userRepository.saveUser(user);
+        var authData = userSupport.authenticateUser(createUserData.getUserName(), createUserData.getPassword());
+        user.setAuthResponse(authData);
+        return user;
     }
 
     @Override
@@ -58,11 +61,13 @@ public class UserImpl implements UserPort {
     @Override
     public User updateUser(UserData userData) {
         var user  = userRepository.findUserById(userData.getId());
+        user.getRoles().forEach(role -> keyCloakService.removeRoleToUser(user.getKeycloakUserId(), role.getName()));
         userSupport.validateData(userData);
         var roles = getRoles(userData.getRoleIds());
         var updatedUser = userData.toUser(user);
         updatedUser.setRoles(roles);
         keyCloakService.updateUser(updatedUser.toKeyCloakUpdateUser());
+        roles.forEach(role -> keyCloakService.assignRoleToUser(updatedUser.getKeycloakUserId(), role.getName()));
         return userRepository.saveUser(updatedUser);
     }
 
