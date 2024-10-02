@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,7 @@ public class UserResponse {
     private String town;
     private String address;
     private String imageUrl;
+    private AuthResponse authResponse;
     private String createdBy;
     private LocalDateTime createdDate;
     private String lastModifiedBy;
@@ -35,6 +37,9 @@ public class UserResponse {
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
         userResponse.setRoles(user.getRoles().stream().map(RoleResponse::toResponse).collect(Collectors.toSet()));
+        if (!Objects.isNull(user.getAuthResponse())) {
+            userResponse.setAuthResponse(AuthResponse.toAuthResponse(user.getAuthResponse()));
+        }
         return userResponse;
     }
 }

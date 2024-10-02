@@ -2,15 +2,16 @@ package com.zote.user.service.domain.support;
 
 import com.zote.common.utils.config.BeanConfig;
 import com.zote.common.utils.exceptions.FunctionalError;
+import com.zote.common.utils.models.KeycloakProperties;
 import com.zote.common.utils.models.Status;
-import com.zote.user.service.domain.model.CreateUserData;
-import com.zote.user.service.domain.model.Role;
-import com.zote.user.service.domain.model.User;
-import com.zote.user.service.domain.model.UserData;
+import com.zote.common.utils.request.HttpService;
+import com.zote.user.service.domain.model.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,10 @@ import java.util.UUID;
 public class UserSupport {
 
     private final BeanConfig config;
+
+    private final HttpService httpService;
+
+    private final KeycloakProperties keycloakProperties;
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -100,5 +105,16 @@ public class UserSupport {
                 .status(Status.INACTIVE)
                 .town(createUserData.getTown())
                 .build();
+    }
+
+    public AuthData authenticateUser(String username, String password) {
+        log.info("authenticating user from keycloak");
+        MultiValueMap<String, String> loginData = new LinkedMultiValueMap<>();
+        loginData.add("client_id", keycloakProperties.getClientId());
+        loginData.add("client_secret", keycloakProperties.getClientSecret());
+        loginData.add("grant_type", keycloakProperties.getGrantType());
+        loginData.add("username", username);
+        loginData.add("password", password);
+        return httpService.post(keycloakProperties.getAuthServerUrl(), loginData, AuthData.class);
     }
 }

@@ -16,6 +16,8 @@ public interface UserRepositoryPort {
 
     User findUserByEmail(String email);
 
+    User findUserByUserName(String username);
+
     User findUserByPhoneNumber(String phoneNumber);
 
     List<User> getAllUsers();

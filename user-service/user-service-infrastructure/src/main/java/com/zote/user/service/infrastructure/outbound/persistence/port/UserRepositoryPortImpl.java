@@ -47,6 +47,13 @@ public class UserRepositoryPortImpl implements UserRepositoryPort {
     }
 
     @Override
+    public User findUserByUserName(String username) {
+        log.info("Getting user with username {}", username);
+        return userRepository.findByUserName(username).map(UserEntity::toDto)
+                .orElseThrow(() -> new FunctionalError("could not find user with username " + username));
+    }
+
+    @Override
     public User findUserByPhoneNumber(String phoneNumber) {
         log.info("Getting user with phoneNumber {}", phoneNumber);
         return userRepository.findByPhoneNumber(phoneNumber).map(UserEntity::toDto)

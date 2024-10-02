@@ -2,7 +2,6 @@ package com.zote.user.service.domain.usecase;
 
 import com.zote.common.utils.exceptions.FunctionalError;
 import com.zote.user.service.domain.model.Permission;
-import com.zote.user.service.domain.model.PermissionDto;
 import com.zote.user.service.domain.ports.inbound.PermissionPort;
 import com.zote.user.service.domain.ports.outbound.PermissionRepositoryPort;
 import lombok.RequiredArgsConstructor;

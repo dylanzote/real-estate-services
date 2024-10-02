@@ -24,13 +24,3 @@ eureka:
   instance:
     hostname: localhost
 
-minio:
-  object:
-    bucket-name: default
-    url: http://localhost:9000
-    access-key: XfNtLMzPsBmII8tmjJBx
-    secret-key: 9zAw2ubkNMsh5DrgXGl4lPj0T3rrCmJ7pRarl2Z1
-
-logging:
-  level:
-    org.springdoc: DEBUG
