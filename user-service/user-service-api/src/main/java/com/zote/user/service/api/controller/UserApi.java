@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/user/")
 public interface UserApi {
 
-    @Operation(summary = "create a new user" )
+    @Operation(summary = "create a new user")
     @PostMapping("create")
     UserResponse createUser(@RequestBody CreateUserRequest createUserRequest);
 

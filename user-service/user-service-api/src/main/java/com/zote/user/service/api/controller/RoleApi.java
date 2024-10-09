@@ -37,6 +37,6 @@ public interface RoleApi {
 
     @Operation(summary = "delete a Role by id")
     @DeleteMapping("delete/{id}")
-    @RolesAllowed({Permissions.IS_ADMIN, Permissions.IS_USER})
+    @RolesAllowed({Permissions.IS_ADMIN})
     void deleteRole(@PathVariable("id") String id);
 }
