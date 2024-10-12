@@ -38,7 +38,7 @@ public class SecurityConfig {
                     exception.accessDeniedHandler(accessDenied);
                 })
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/v3/api-docs", "/swagger-ui.html", "/v3/api-docs/swagger-config", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/v3/api-docs/swagger-config", "/swagger-ui/**", "/v3/**", "/v3/api-docs**").permitAll()
                         .requestMatchers("/user/create", "/authenticate", "/role/create", "/permission/create").permitAll()
                                 .anyRequest().authenticated()
                 )
