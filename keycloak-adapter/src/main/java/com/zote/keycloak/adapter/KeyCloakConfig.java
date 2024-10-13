@@ -1,6 +1,6 @@
-package com.zote.common.utils.config;
+package com.zote.keycloak.adapter;
 
-import com.zote.common.utils.models.KeycloakProperties;
+import com.zote.keycloak.adapter.model.KeycloakProperties;
 import lombok.AllArgsConstructor;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;

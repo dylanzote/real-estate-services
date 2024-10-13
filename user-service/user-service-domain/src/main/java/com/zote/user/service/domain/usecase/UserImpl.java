@@ -1,9 +1,9 @@
 package com.zote.user.service.domain.usecase;
 
 import com.zote.common.utils.config.BeanConfig;
-import com.zote.common.utils.config.KeyCloakService;
 import com.zote.common.utils.exceptions.FunctionalError;
 import com.zote.common.utils.files.MinioObjectStorage;
+import com.zote.keycloak.adapter.KeyCloakService;
 import com.zote.user.service.domain.model.*;
 import com.zote.user.service.domain.ports.inbound.UserPort;
 import com.zote.user.service.domain.ports.outbound.RoleRepositoryPort;

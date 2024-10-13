@@ -1,13 +1,12 @@
 package com.zote.user.service.domain.model;
 
 import com.zote.common.utils.models.Gender;
-import com.zote.common.utils.models.KeyCloakUser;
 import com.zote.common.utils.models.Status;
+import com.zote.keycloak.adapter.model.KeyCloakUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
@@ -41,7 +40,7 @@ public class User {
     private String lastModifiedBy;
     private LocalDateTime lastModifiedDate;
 
-    public  KeyCloakUser toKeyCloakUser() {
+    public KeyCloakUser toKeyCloakUser() {
         KeyCloakUser keyCloakUser = new KeyCloakUser();
         BeanUtils.copyProperties(this, keyCloakUser);
         return keyCloakUser;

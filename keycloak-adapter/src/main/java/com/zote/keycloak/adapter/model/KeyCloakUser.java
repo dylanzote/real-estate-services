@@ -1,4 +1,4 @@
-package com.zote.common.utils.models;
+package com.zote.keycloak.adapter.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

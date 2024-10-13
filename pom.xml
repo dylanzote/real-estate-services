@@ -31,6 +31,7 @@
         <module>user-service</module>
         <module>api-gateway</module>
         <module>discovery-server</module>
+        <module>keycloak-adapter</module>
     </modules>
 
 </project>
