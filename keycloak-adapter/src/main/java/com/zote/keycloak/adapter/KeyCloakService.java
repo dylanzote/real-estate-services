@@ -154,6 +154,7 @@ public class KeyCloakService {
     }
 
     public void addRealmRole(String role, String description) {
+        deleteRealmRole(role);
         log.info("Adding realm role {}", role);
         if(!getRoles().contains(role)) {
             RoleRepresentation roleRep = new  RoleRepresentation();

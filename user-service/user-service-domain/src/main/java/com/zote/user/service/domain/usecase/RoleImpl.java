@@ -42,12 +42,12 @@ public class RoleImpl implements RolePort {
 
     @Override
     public Role updateRole(RoleRequest roleRequest) {
-        var role = roleRepositoryPort.findRoleById(roleRequest.getId());
+        var role = roleRepositoryPort.findRoleByName(roleRequest.getName());
         var permissions = this.getPermissions(roleRequest);
         role.setName(roleRequest.getName());
         role.setDescription(roleRequest.getDescription());
         role.setPermissions(permissions);
-//        keyCloakService.addRealmRole(role.getName(), role.getDescription());
+        keyCloakService.addRealmRole(role.getName(), role.getDescription());
         return roleRepositoryPort.saveRole(role);
     }
 

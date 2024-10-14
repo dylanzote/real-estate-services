@@ -12,7 +12,7 @@ public record UpdateRoleRequest(
         @NotNull
         String description,
         @NotNull
-        Set<String> permissionId
+        Set<String> permissionIds
 ) {
 
         public RoleRequest toRolerequest() {
