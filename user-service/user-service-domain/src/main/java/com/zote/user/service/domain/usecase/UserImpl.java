@@ -5,6 +5,7 @@ import com.zote.common.utils.exceptions.FunctionalError;
 import com.zote.common.utils.files.MinioObjectStorage;
 import com.zote.keycloak.adapter.KeyCloakService;
 import com.zote.user.service.domain.model.*;
+import com.zote.user.service.domain.ports.inbound.MailNotificationPort;
 import com.zote.user.service.domain.ports.inbound.UserPort;
 import com.zote.user.service.domain.ports.outbound.RoleRepositoryPort;
 import com.zote.user.service.domain.ports.outbound.UserRepositoryPort;
@@ -27,31 +28,43 @@ import java.util.stream.Collectors;
 public class UserImpl implements UserPort {
 
     private final UserRepositoryPort userRepository;
-
     private final RoleRepositoryPort roleRepository;
-
     private final UserSupport userSupport;
-
     private final BeanConfig config;
-
     private final MinioObjectStorage minioObjectStorage;
-
     private final KeyCloakService keyCloakService;
+
+    // Inject MailNotificationPort to send validation emails
+    private final MailNotificationPort mailNotificationPort;
 
     @Override
     public User createUser(CreateUserData createUserData) {
+        // Validate data
         userSupport.validateData(createUserData);
         verifyIfUserExists(createUserData);
+
+        // Fetch and assign roles
         var roles = getRoles(createUserData.getRoleIds());
         var user = userSupport.buildUser(createUserData, roles);
+
+        // Create Keycloak user and assign roles
         var keycloakUserId = keyCloakService.createUser(user.toKeyCloakUser(), createUserData.getPassword());
         user.setKeycloakUserId(keycloakUserId);
         roles.forEach(role -> keyCloakService.assignRoleToUser(keycloakUserId, role.getName()));
+
+        // Save the user in the repository
         user = userRepository.saveUser(user);
+
+        // Send validation email after user creation
+        mailNotificationPort.sendValidationEmail(user.getEmail());
+
+        // Authenticate user and set auth response
         var authData = userSupport.authenticateUser(createUserData.getUserName(), createUserData.getPassword());
         user.setAuthResponse(authData);
+
         return user;
     }
+
 
     @Override
     public User createUserByAdmin(CreateUserData createUserData) {

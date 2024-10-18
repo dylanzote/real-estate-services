@@ -1,28 +1,32 @@
 package com.zote.notification.adapter.config;
 
+import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import java.util.Properties;
-
 @Configuration
+@EnableConfigurationProperties(MailProperties.class)
 public class MailConfig {
 
+    private final MailProperties mailProperties;
+
+    public MailConfig(MailProperties mailProperties) {
+        this.mailProperties = mailProperties;
+    }
+
     @Bean
-    public JavaMailSender getJavaMailSender() {
+    public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.example.com");
-        mailSender.setPort(587);
+        mailSender.setHost(mailProperties.getHost());
+        mailSender.setPort(mailProperties.getPort());
+        mailSender.setUsername(mailProperties.getUsername());
+        mailSender.setPassword(mailProperties.getPassword());
 
-        mailSender.setUsername("my.email@example.com");
-        mailSender.setPassword("password");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        // additional properties
+        mailSender.getJavaMailProperties().putAll(mailProperties.getProperties());
 
         return mailSender;
     }

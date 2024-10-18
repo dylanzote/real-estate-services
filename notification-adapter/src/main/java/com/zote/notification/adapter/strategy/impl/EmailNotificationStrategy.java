@@ -1,10 +1,10 @@
 package com.zote.notification.adapter.strategy.impl;
 
-
 import com.zote.notification.adapter.models.NotificationData;
 import com.zote.notification.adapter.models.enums.NotificationType;
 import com.zote.notification.adapter.strategy.NotificationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class EmailNotificationStrategy implements NotificationStrategy {
     private final JavaMailSender mailSender;
 
     @Autowired
-    public EmailNotificationStrategy(JavaMailSender mailSender) {
+    public EmailNotificationStrategy(@Qualifier("javaMailSender") JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
