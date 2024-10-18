@@ -5,6 +5,6 @@ spring:
     username: billingssgabs@gmail.com
     password: dkmc bsem ihej rgdk
     properties:
-      mail.transport.protocol: smtp
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+      mail.transport.protocol: smtp

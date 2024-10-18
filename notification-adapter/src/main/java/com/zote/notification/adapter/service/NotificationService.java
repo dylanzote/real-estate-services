@@ -1,22 +1,22 @@
 package com.zote.notification.adapter.service;
 
-import com.zote.notification.adapter.NotificationContext;
 import com.zote.notification.adapter.models.NotificationData;
 import com.zote.notification.adapter.models.enums.NotificationType;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zote.notification.adapter.provider.NotificationProvider;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class NotificationService {
 
-    private final NotificationContext notificationContext;
+    private final NotificationProvider notificationProvider;
 
-    @Autowired
-    public NotificationService(NotificationContext notificationContext) {
-        this.notificationContext = notificationContext;
-    }
-
-    public void sendNotification(NotificationType type, NotificationData data) {
-        notificationContext.sendNotification(type, data);
+    public void sendNotification(NotificationData notificationData) {
+        log.info("incoming  notification with data: {}", notificationData);
+        var notification = notificationProvider.getNotification(Enum.valueOf(NotificationType.class, notificationData.getType()));
+        notification.sendNotification(notificationData);
     }
 }
