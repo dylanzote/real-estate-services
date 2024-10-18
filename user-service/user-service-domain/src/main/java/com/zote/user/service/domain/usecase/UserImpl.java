@@ -6,6 +6,7 @@ import com.zote.common.utils.files.MinioObjectStorage;
 import com.zote.keycloak.adapter.KeyCloakService;
 import com.zote.user.service.domain.model.*;
 import com.zote.user.service.domain.ports.inbound.UserPort;
+import com.zote.user.service.domain.ports.outbound.NotificationPort;
 import com.zote.user.service.domain.ports.outbound.RoleRepositoryPort;
 import com.zote.user.service.domain.ports.outbound.UserRepositoryPort;
 import com.zote.user.service.domain.support.UserSupport;
@@ -27,16 +28,13 @@ import java.util.stream.Collectors;
 public class UserImpl implements UserPort {
 
     private final UserRepositoryPort userRepository;
-
     private final RoleRepositoryPort roleRepository;
-
     private final UserSupport userSupport;
-
     private final BeanConfig config;
-
     private final MinioObjectStorage minioObjectStorage;
-
     private final KeyCloakService keyCloakService;
+    private final NotificationPort notificationPort;
+
 
     @Override
     public User createUser(CreateUserData createUserData) {
@@ -50,8 +48,10 @@ public class UserImpl implements UserPort {
         user = userRepository.saveUser(user);
         var authData = userSupport.authenticateUser(createUserData.getUserName(), createUserData.getPassword());
         user.setAuthResponse(authData);
+        notificationPort.sendEmailNotification(user.getEmail(), "success", "success");
         return user;
     }
+
 
     @Override
     public User createUserByAdmin(CreateUserData createUserData) {

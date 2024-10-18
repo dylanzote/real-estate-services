@@ -32,8 +32,8 @@ public class PropertyApi {
 
     @PostMapping(value ="/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Property createProperty(@RequestBody @ModelAttribute CreatePropertyRequest createPropertyRequest) {
-        log.info("incoming creat property request with data {}", createPropertyRequest);
-        // TODO: 3/3/2024 remove this fat controller anti pattern to respect hexaconal architecture due to the fact that orchestration logic and domain model translation should not be the responsibility of the controller.
+        log.info("incoming create property request with data {}", createPropertyRequest);
+        // TODO: 3/3/2024 remove this fat controller anti pattern to respect hexagonal architecture due to the fact that orchestration logic and domain model translation should not be the responsibility of the controller.
         return createProperty.createProperty(createPropertyUseCase.createProperty(createPropertyRequest));
     }
 

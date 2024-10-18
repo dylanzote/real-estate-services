@@ -32,6 +32,7 @@
         <module>api-gateway</module>
         <module>discovery-server</module>
         <module>keycloak-adapter</module>
+        <module>notification-adapter</module>
     </modules>
 
 </project>
