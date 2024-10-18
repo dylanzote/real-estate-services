@@ -1,7 +1,7 @@
 package com.zote.user.service.domain.usecase;
 
-import com.zote.common.utils.config.KeyCloakService;
 import com.zote.common.utils.exceptions.FunctionalError;
+import com.zote.keycloak.adapter.KeyCloakService;
 import com.zote.user.service.domain.model.*;
 import com.zote.user.service.domain.ports.inbound.RolePort;
 import com.zote.user.service.domain.ports.outbound.PermissionRepositoryPort;
@@ -42,12 +42,12 @@ public class RoleImpl implements RolePort {
 
     @Override
     public Role updateRole(RoleRequest roleRequest) {
-        var role = roleRepositoryPort.findRoleById(roleRequest.getId());
+        var role = roleRepositoryPort.findRoleByName(roleRequest.getName());
         var permissions = this.getPermissions(roleRequest);
         role.setName(roleRequest.getName());
         role.setDescription(roleRequest.getDescription());
         role.setPermissions(permissions);
-//        keyCloakService.addRealmRole(role.getName(), role.getDescription());
+        keyCloakService.addRealmRole(role.getName(), role.getDescription());
         return roleRepositoryPort.saveRole(role);
     }
 

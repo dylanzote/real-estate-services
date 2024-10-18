@@ -1,7 +1,7 @@
 package com.zote.common.utils.config;
 
 import lombok.AllArgsConstructor;
-import org.keycloak.common.util.CollectionUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,7 +52,7 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
         }
 
         List<String> realmRoles = (List<String>) realmAccess.get("roles");
-        if (CollectionUtil.isNotEmpty(realmRoles)) {
+        if (CollectionUtils.isNotEmpty(realmRoles)) {
             return realmRoles.stream()
                     .map(role -> new SimpleGrantedAuthority(ROLE_PREFIX + role))
                     .collect(Collectors.toSet());

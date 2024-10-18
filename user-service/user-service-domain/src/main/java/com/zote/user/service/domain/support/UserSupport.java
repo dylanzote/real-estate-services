@@ -2,20 +2,18 @@ package com.zote.user.service.domain.support;
 
 import com.zote.common.utils.config.BeanConfig;
 import com.zote.common.utils.exceptions.FunctionalError;
-import com.zote.common.utils.models.KeycloakProperties;
 import com.zote.common.utils.models.Status;
 import com.zote.common.utils.request.HttpService;
+import com.zote.keycloak.adapter.model.KeycloakProperties;
 import com.zote.user.service.domain.model.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;

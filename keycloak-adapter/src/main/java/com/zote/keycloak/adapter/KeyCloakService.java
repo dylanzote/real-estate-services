@@ -1,8 +1,8 @@
-package com.zote.common.utils.config;
+package com.zote.keycloak.adapter;
 
 import com.zote.common.utils.exceptions.FunctionalError;
-import com.zote.common.utils.models.KeycloakProperties;
-import com.zote.common.utils.models.KeyCloakUser;
+import com.zote.keycloak.adapter.model.KeyCloakUser;
+import com.zote.keycloak.adapter.model.KeycloakProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
@@ -13,7 +13,9 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -152,6 +154,7 @@ public class KeyCloakService {
     }
 
     public void addRealmRole(String role, String description) {
+        deleteRealmRole(role);
         log.info("Adding realm role {}", role);
         if(!getRoles().contains(role)) {
             RoleRepresentation roleRep = new  RoleRepresentation();

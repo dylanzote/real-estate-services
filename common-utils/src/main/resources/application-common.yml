@@ -2,22 +2,12 @@ spring:
   application:
     name: common-service
 
-keycloak:
-  server-url: http://localhost:8080/
-  realm: real-estate
-  client-id: real-estate-credential-id
-  grant-type: password
-  username: admin
-  password: admin
-  client-secret: l9Y1SoXDu7r2vvEl4rzOUaJmBQchd9Yl
-  auth-server-url: ${keycloak.server-url}/realms/real-estate/protocol/openid-connect/token
-
 minio:
   object:
     bucket-name: default
-    url: http://localhost:9002
-    access-key: vlRZiGcuQnSTb4d66rZl
-    secret-key: Q8z4ezm3N2yQL2frs8rfXGFUtIoHBUusAR11j4et
+    url: http://localhost:9000
+    access-key: XfNtLMzPsBmII8tmjJBx
+    secret-key: 9zAw2ubkNMsh5DrgXGl4lPj0T3rrCmJ7pRarl2Z1
 
 eureka:
   client:

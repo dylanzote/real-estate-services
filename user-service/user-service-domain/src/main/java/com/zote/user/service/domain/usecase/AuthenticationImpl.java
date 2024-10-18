@@ -2,9 +2,6 @@ package com.zote.user.service.domain.usecase;
 
 import com.zote.common.utils.config.BeanConfig;
 import com.zote.common.utils.exceptions.FunctionalError;
-import com.zote.common.utils.exceptions.UnAuthorizedException;
-import com.zote.common.utils.models.KeycloakProperties;
-import com.zote.common.utils.request.HttpService;
 import com.zote.user.service.domain.model.AuthData;
 import com.zote.user.service.domain.ports.inbound.AuthenticationPort;
 import com.zote.user.service.domain.ports.outbound.UserRepositoryPort;
@@ -12,8 +9,6 @@ import com.zote.user.service.domain.support.UserSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 @Service
 @Slf4j
