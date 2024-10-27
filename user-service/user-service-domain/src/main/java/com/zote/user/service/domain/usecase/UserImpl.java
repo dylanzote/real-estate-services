@@ -97,29 +97,43 @@ public class UserImpl implements UserPort {
 
     @Override
     public User findUserById(String userId) {
-        return userRepository.findUserById(userId);
+        var user = userRepository.findUserById(userId);
+        user.setImageUrl(minioObjectStorage.getPresignedUrl(minioObjectStorage.getUserImageName(user.getId())));
+        return user;
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        var user = userRepository.findUserByEmail(email);
+        user.setImageUrl(minioObjectStorage.getPresignedUrl(minioObjectStorage.getUserImageName(user.getId())));
+        return user;
     }
 
     @Override
     public User findUserByPhoneNumber(String phoneNumber) {
-        return userRepository.findUserByPhoneNumber(phoneNumber);
+        var user = userRepository.findUserByPhoneNumber(phoneNumber);
+        user.setImageUrl(minioObjectStorage.getPresignedUrl(minioObjectStorage.getUserImageName(user.getId())));
+        return user;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+        return userRepository.getAllUsers().stream()
+                .map(user -> {
+                    user.setImageUrl(minioObjectStorage.getPresignedUrl(minioObjectStorage.getUserImageName(user.getId())));
+                    return user;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
     public Page<User> getAllUsersByPage(int page, int sizePerPage, String sortField, Sort.Direction sortDirection) {
         var pageNo = page < 0 ? 0 : page - 1;
         var pageable = PageRequest.of(pageNo, sizePerPage, sortDirection, sortField);
-        return userRepository.findUsersByPage(pageable);
+        return userRepository.findUsersByPage(pageable).map(user -> {
+            user.setImageUrl(minioObjectStorage.getPresignedUrl(minioObjectStorage.getUserImageName(user.getId())));
+            return user;
+        });
     }
 
     @Override
@@ -128,7 +142,7 @@ public class UserImpl implements UserPort {
             throw new FunctionalError("User does not exist with given id");
         }
         minioObjectStorage.uploadImage(image, minioObjectStorage.getUserImageName(userId));
-        return MinioObjectStorage.convertToBase64(minioObjectStorage.getObject(minioObjectStorage.getUserImageName(userId)));
+        return minioObjectStorage.getPresignedUrl(minioObjectStorage.getUserImageName(userId));
     }
 
     @Override
@@ -137,6 +151,11 @@ public class UserImpl implements UserPort {
             throw new FunctionalError("User does not exist with given id");
         }
         return MinioObjectStorage.convertToBase64(minioObjectStorage.getObject(minioObjectStorage.getUserImageName(userId)));
+    }
+
+    @Override
+    public String getUserImageUrl(String userId) {
+        return minioObjectStorage.getPresignedUrl(minioObjectStorage.getUserImageName(userId));
     }
 
     private void verifyIfUserExists(CreateUserData createUserData) {

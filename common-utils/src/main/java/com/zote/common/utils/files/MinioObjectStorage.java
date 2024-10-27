@@ -3,6 +3,7 @@ package com.zote.common.utils.files;
 import com.zote.common.utils.exceptions.FunctionalError;
 import io.minio.*;
 import io.minio.errors.*;
+import io.minio.http.Method;
 import io.minio.messages.Item;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,8 @@ import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -122,10 +125,20 @@ public class MinioObjectStorage {
 
     @SneakyThrows
     public String getPresignedUrl(String objectName)  {
-        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                .bucket(bucketName)
-                .object(objectName)
-                .expiry(1, TimeUnit.HOURS) // URL valid for 1 hour
-                .build());
+        try {
+            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(bucketName)
+                    .object(objectName)
+                    .expiry(24, TimeUnit.HOURS) // URL valid for 12 hour
+                    .build());
+        }catch (InsufficientDataException | InvalidKeyException | IOException |
+                 NoSuchAlgorithmException | ServerException | XmlParserException | InvalidResponseException |
+                 InternalException e) {
+            throw new FunctionalError(e.toString());
+        } catch (ErrorResponseException exception) {
+            log.error("Invalid key: {}", exception.getMessage());
+            throw new FunctionalError("no image for user");
+        }
     }
 }

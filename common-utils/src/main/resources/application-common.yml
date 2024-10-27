@@ -5,9 +5,9 @@ spring:
 minio:
   object:
     bucket-name: default
-    url: http://localhost:9000
-    access-key: XfNtLMzPsBmII8tmjJBx
-    secret-key: 9zAw2ubkNMsh5DrgXGl4lPj0T3rrCmJ7pRarl2Z1
+    url: http://localhost:9002
+    access-key: UUqjms6JBgkHoepkR1No
+    secret-key: jHpUox5rZtKRONPSUyNW7yA8lHuJF6i9TcX7j4T1
 
 eureka:
   client:

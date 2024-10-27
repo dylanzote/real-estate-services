@@ -5,6 +5,7 @@ import com.zote.user.service.api.enums.SortField;
 import com.zote.user.service.api.request.CreateUserRequest;
 import com.zote.user.service.api.request.UpdatePasswordRequest;
 import com.zote.user.service.api.request.UpdateUserRequest;
+import com.zote.user.service.api.response.ImageDto;
 import com.zote.user.service.api.response.UserPageResponse;
 import com.zote.user.service.api.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,12 +67,12 @@ public interface UserApi {
     @Operation(summary = "uploads user image and receives in base64 encoded format")
     @PostMapping(value = "upload/image/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @RolesAllowed({Permissions.IS_ADMIN, Permissions.IS_USER, Permissions.IS_AGENT, Permissions.IS_CUSTOMER})
-    String uploadUserImage(@PathVariable("userId") String userId, @RequestParam("image") MultipartFile image);
+    ImageDto uploadUserImage(@PathVariable("userId") String userId, @RequestParam("image") MultipartFile image);
 
     @Operation(summary = "gets user image by id from object storage link")
     @GetMapping("get/{id}/image")
     @RolesAllowed({Permissions.IS_ADMIN, Permissions.IS_USER, Permissions.IS_AGENT, Permissions.IS_CUSTOMER})
-    UserResponse getUserImage(@PathVariable("id") String id);
+    ImageDto getUserImage(@PathVariable("id") String id);
 
     @Operation(summary = "gets user image by id from database")
     @GetMapping("get/{userId}/base-image")

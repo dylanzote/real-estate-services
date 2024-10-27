@@ -5,6 +5,7 @@ import com.zote.user.service.api.enums.SortField;
 import com.zote.user.service.api.request.CreateUserRequest;
 import com.zote.user.service.api.request.UpdatePasswordRequest;
 import com.zote.user.service.api.request.UpdateUserRequest;
+import com.zote.user.service.api.response.ImageDto;
 import com.zote.user.service.api.response.UserPageResponse;
 import com.zote.user.service.api.response.UserResponse;
 import com.zote.user.service.domain.ports.inbound.UserPort;
@@ -70,19 +71,20 @@ public class UserService implements UserApi {
     }
 
     @Override
-    public String uploadUserImage(String userId, MultipartFile image) {
+    public ImageDto uploadUserImage(String userId, MultipartFile image) {
         log.info("incoming request for uploading user image for user with id {}", userId);
-        return userPort.uploadUserImage(userId, image);
+        return ImageDto.builder().imageUrl(userPort.uploadUserImage(userId, image)).build();
     }
 
     @Override
-    public UserResponse getUserImage(String id) {
-        return null;
+    public ImageDto getUserImage(String id) {
+        log.info("incoming request for getting user image link for user");
+        return ImageDto.builder().imageUrl(userPort.getUserImageUrl(id)).build();
     }
 
     @Override
     public String getUserImageBase64(String userId) {
-        log.info("incoming request for getting user image base64 for user with id {}", userId);
+        log.info("incoming request for getting user image base64 for user");
         return userPort.getUserImage(userId);
     }
 }

@@ -34,4 +34,6 @@ public interface UserPort {
     String uploadUserImage(String userId,  MultipartFile image);
 
     String getUserImage(String userId);
+
+    String getUserImageUrl(String userId);
 }
