@@ -34,4 +34,6 @@ public class AuthData {
 
     @JsonProperty("scope")
     private String scope;
+
+    private User user;
 }

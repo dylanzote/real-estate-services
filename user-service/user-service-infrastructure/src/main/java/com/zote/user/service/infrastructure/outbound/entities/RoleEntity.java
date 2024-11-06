@@ -22,7 +22,7 @@ public class RoleEntity extends Auditable {
     private String id;
     private String name;
     private String description;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST) // Only persist new entities When you create a user and associate it with multiple roles that share the same permissions, these permissions are represented as multiple instances of PermissionEntity. If you're using CascadeType.ALL, Hibernate tries to persist all those instances as new objects, leading to the conflict since the database already has the permission with that ID
     @JoinTable(
             name = "role_permissions",
             joinColumns = @JoinColumn(name = "role_id"),

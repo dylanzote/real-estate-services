@@ -54,8 +54,20 @@ public class UserImpl implements UserPort {
 
 
     @Override
-    public User createUserByAdmin(CreateUserData createUserData) {
-        return null;
+    public User createUserByAdmin(CreateAdminUserData createAdminUserData) {
+        userSupport.validateData(createAdminUserData);
+        var createUserData = createAdminUserData.tocreateUserData();
+        verifyIfUserExists(createUserData);
+        var password = userSupport.generateRandomPassword();
+        createUserData.setPassword(password);
+        var roles = getRoles(createAdminUserData.getRoleIds());
+        var user = userSupport.buildUser(createUserData, roles);
+        var keycloakUserId = keyCloakService.createUser(user.toKeyCloakUser(), password);
+        user.setKeycloakUserId(keycloakUserId);
+        roles.forEach(role -> keyCloakService.assignRoleToUser(keycloakUserId, role.getName()));
+        user = userRepository.saveUser(user);
+        notificationPort.sendEmailNotification(user.getEmail(), "success", "success");
+        return user;
     }
 
     @Override

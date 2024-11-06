@@ -11,7 +11,7 @@ public interface UserPort {
 
     User createUser(CreateUserData createUserData);
 
-    User createUserByAdmin(CreateUserData createUserData);
+    User createUserByAdmin(CreateAdminUserData createAdminUserData);
 
     User updateUser(UserData userData);
 

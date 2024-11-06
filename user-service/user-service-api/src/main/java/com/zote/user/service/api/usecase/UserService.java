@@ -2,6 +2,7 @@ package com.zote.user.service.api.usecase;
 
 import com.zote.user.service.api.controller.UserApi;
 import com.zote.user.service.api.enums.SortField;
+import com.zote.user.service.api.request.CreateAdminUserRequest;
 import com.zote.user.service.api.request.CreateUserRequest;
 import com.zote.user.service.api.request.UpdatePasswordRequest;
 import com.zote.user.service.api.request.UpdateUserRequest;
@@ -29,9 +30,9 @@ public class UserService implements UserApi {
     }
 
     @Override
-    public UserResponse createUserByAdmin(CreateUserRequest createUserRequest) {
-        log.info("incoming request for creating User by admin {}", createUserRequest);
-        return UserResponse.toResponse(userPort.createUserByAdmin(createUserRequest.tocreateUserData()));
+    public UserResponse createUserByAdmin(CreateAdminUserRequest createAdminUserRequest) {
+        log.info("incoming request for creating User by admin {}", createAdminUserRequest);
+        return UserResponse.toResponse(userPort.createUserByAdmin(createAdminUserRequest.toCreateAdminUserData()));
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
@@ -28,6 +29,18 @@ public class UserSupport {
     private final HttpService httpService;
 
     private final KeycloakProperties keycloakProperties;
+
+    private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    private static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+
+    private static final String DIGITS = "0123456789";
+
+    private static final String SPECIAL_CHARS = "!@#$%^&*()_-+=<>?";
+
+    private static final String ALL_CHARACTERS = UPPERCASE + LOWERCASE + DIGITS + SPECIAL_CHARS;
+
+    private static final int PASSWORD_LENGTH = 8;
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -80,6 +93,13 @@ public class UserSupport {
         validateDate(user.getDateOfBirth());
     }
 
+    public void validateData(CreateAdminUserData user) {
+        log.info("validating user data");
+        validateEmail(user.getEmail());
+        validatePhoneNumber(user.getPhoneNumber());
+        validateDate(user.getDateOfBirth());
+    }
+
     public void validateData(UserData user) {
         log.info("validating user data");
         validateEmail(user.getEmail());
@@ -114,5 +134,17 @@ public class UserSupport {
         loginData.add("username", username);
         loginData.add("password", password);
         return httpService.post(keycloakProperties.getAuthServerUrl(), loginData, AuthData.class);
+    }
+
+    public String generateRandomPassword() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(PASSWORD_LENGTH);
+
+        for (int i = 0; i < PASSWORD_LENGTH; i++) {
+            int index = random.nextInt(ALL_CHARACTERS.length());
+            password.append(ALL_CHARACTERS.charAt(index));
+        }
+
+        return password.toString();
     }
 }

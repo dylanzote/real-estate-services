@@ -2,6 +2,7 @@ package com.zote.user.service.api.controller;
 
 import com.zote.common.utils.models.Permissions;
 import com.zote.user.service.api.enums.SortField;
+import com.zote.user.service.api.request.CreateAdminUserRequest;
 import com.zote.user.service.api.request.CreateUserRequest;
 import com.zote.user.service.api.request.UpdatePasswordRequest;
 import com.zote.user.service.api.request.UpdateUserRequest;
@@ -29,7 +30,7 @@ public interface UserApi {
     @Operation(summary = "create a new user by admin")
     @PostMapping("create/by-admin")
     @RolesAllowed({Permissions.IS_ADMIN})
-    UserResponse createUserByAdmin(@RequestBody CreateUserRequest createUserRequest);
+    UserResponse createUserByAdmin(@RequestBody CreateAdminUserRequest createAdminUserRequest);
 
     @Operation(summary = "gets user by page")
     @GetMapping("get-all")

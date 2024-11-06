@@ -46,7 +46,7 @@ public class KeyCloakService {
                .users()
                .create(keyCloakUser.toUserRepresentation());
         if (!Objects.equals(201, response.getStatus())) {
-            throw new FunctionalError("user could not be created in Realm");
+            throw new FunctionalError("user could not be created in Realm ");
         }
 // TODO: 9/22/2024 set emailverified to false to allow this method work accordinly
 //        List<UserRepresentation> representationList = keycloak

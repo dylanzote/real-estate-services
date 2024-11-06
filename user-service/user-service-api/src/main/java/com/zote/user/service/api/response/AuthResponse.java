@@ -13,10 +13,12 @@ public class AuthResponse {
     private int expiresIn;
     private int refreshExpiresIn;
     private String refreshToken;
+    private UserResponse user;
 
     public static AuthResponse toAuthResponse(AuthData authData) {
         AuthResponse authResponse = new AuthResponse();
         BeanUtils.copyProperties(authData, authResponse);
+        authResponse.setUser(UserResponse.toResponse(authData.getUser()));
         return authResponse;
     }
 }
