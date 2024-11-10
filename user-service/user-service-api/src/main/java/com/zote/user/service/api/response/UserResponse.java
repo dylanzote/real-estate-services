@@ -1,7 +1,7 @@
 package com.zote.user.service.api.response;
 
-import com.zote.common.utils.models.Gender;
-import com.zote.common.utils.models.Status;
+import com.zote.common.utils.enums.Gender;
+import com.zote.common.utils.enums.Status;
 import com.zote.user.service.domain.model.User;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

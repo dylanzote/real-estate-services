@@ -31,6 +31,12 @@ spring:
             - Path= ${registration.services.propertyservice.path}
           filters:
             - RewritePath=/property-service(?<segment>/?.*), $\{segment}
+        - id: templateservice_route
+          uri: ${registration.services.templateservice.host}
+          predicates:
+            - Path= ${registration.services.templateservice.path}
+          filters:
+            - RewritePath=/template-service(?<segment>/?.*), $\{segment}
         - id: discoveryserver_route
           uri: ${registration.services.discoveryserver.host}
           predicates:
@@ -69,6 +75,9 @@ registration:
     propertyservice:
       host: http://localhost:8082/
       path: /property-service/**, /v3/api-docs, /swagger-ui.html, /v3/api-docs/swagger-config
+    templateservice:
+      host: http://localhost:8083/
+      path: /template-service/**, /v3/api-docs, /swagger-ui.html, /v3/api-docs/swagger-config
     discoveryserver:
       host: http://localhost:8761
       path: /eureka/web

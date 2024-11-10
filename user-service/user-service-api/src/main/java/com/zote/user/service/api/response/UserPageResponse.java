@@ -1,7 +1,6 @@
 package com.zote.user.service.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.zote.user.service.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.domain.Page;

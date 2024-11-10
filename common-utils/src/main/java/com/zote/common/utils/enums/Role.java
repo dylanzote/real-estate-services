@@ -1,4 +1,4 @@
-package com.zote.common.utils.models;
+package com.zote.common.utils.enums;
 
 public enum Role {
     ADMIN,

@@ -33,6 +33,7 @@
         <module>discovery-server</module>
         <module>keycloak-adapter</module>
         <module>notification-adapter</module>
+        <module>resourcebundle-adapter</module>
     </modules>
 
 </project>

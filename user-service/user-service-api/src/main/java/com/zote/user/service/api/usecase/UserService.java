@@ -1,7 +1,7 @@
 package com.zote.user.service.api.usecase;
 
+import com.zote.common.utils.enums.SortField;
 import com.zote.user.service.api.controller.UserApi;
-import com.zote.user.service.api.enums.SortField;
 import com.zote.user.service.api.request.CreateAdminUserRequest;
 import com.zote.user.service.api.request.CreateUserRequest;
 import com.zote.user.service.api.request.UpdatePasswordRequest;

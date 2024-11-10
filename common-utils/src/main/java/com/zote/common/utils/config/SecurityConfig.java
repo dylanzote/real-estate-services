@@ -39,7 +39,8 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/v3/api-docs/swagger-config", "/swagger-ui/**", "/v3/**", "/v3/api-docs**").permitAll()
-                        .requestMatchers("/user/create", "/authenticate", "/role/create", "/permission/create").permitAll()
+                        .requestMatchers("/user/create", "/authenticate", "/role/create", "/permission/create", "/messageTemplate/create").permitAll()
+                        .requestMatchers("/messageTemplate/create").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtConverter)))

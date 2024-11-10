@@ -1,7 +1,7 @@
 package com.zote.user.service.domain.model;
 
-import com.zote.common.utils.models.Gender;
-import com.zote.common.utils.models.Status;
+import com.zote.common.utils.enums.Gender;
+import com.zote.common.utils.enums.Status;
 import com.zote.keycloak.adapter.model.KeyCloakUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

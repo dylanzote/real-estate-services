@@ -1,7 +1,3 @@
-spring:
-  application:
-    name: common-service
-
 minio:
   object:
     bucket-name: default

@@ -1,6 +1,6 @@
 package com.zote.user.service.api.request;
 
-import com.zote.common.utils.models.Gender;
+import com.zote.common.utils.enums.Gender;
 import com.zote.user.service.domain.model.CreateUserData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,6 @@
 package com.zote.user.service.domain.model;
 
-import com.zote.common.utils.models.Gender;
+import com.zote.common.utils.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

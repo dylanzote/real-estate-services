@@ -1,11 +1,8 @@
 package com.zote.user.service.api.response;
 
-import com.zote.common.utils.models.Gender;
 import com.zote.user.service.domain.model.AuthData;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-
-import java.util.stream.Collectors;
 
 @Data
 public class AuthResponse {

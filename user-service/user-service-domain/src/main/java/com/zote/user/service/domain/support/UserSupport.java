@@ -2,7 +2,7 @@ package com.zote.user.service.domain.support;
 
 import com.zote.common.utils.config.BeanConfig;
 import com.zote.common.utils.exceptions.FunctionalError;
-import com.zote.common.utils.models.Status;
+import com.zote.common.utils.enums.Status;
 import com.zote.common.utils.request.HttpService;
 import com.zote.keycloak.adapter.model.KeycloakProperties;
 import com.zote.user.service.domain.model.*;

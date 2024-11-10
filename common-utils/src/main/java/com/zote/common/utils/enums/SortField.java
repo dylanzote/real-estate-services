@@ -1,4 +1,4 @@
-package com.zote.user.service.api.enums;
+package com.zote.common.utils.enums;
 
 import lombok.Getter;
 
